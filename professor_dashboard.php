@@ -14,7 +14,7 @@ if(!isset($_SESSION['user_id']) || $_SESSION['role_id'] != 2){
 $professor_id = $_SESSION['user_id'];
 $active_tab = isset($_GET['tab']) ? $_GET['tab'] : 'courses';
 
-// ========== ΕΠΕΞΕΡΓΑΣΙΑ ΜΑΘΗΜΑΤΟΣ ==========
+// ΕΠΕΞΕΡΓΑΣΙΑ ΜΑΘΗΜΑΤΟΣ
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_course'])) {
     $course_id = $_POST['course_id'];
     $title = $_POST['title'];
@@ -43,7 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_course'])) {
     }
 }
 
-// ========== ΒΑΘΜΟΛΟΓΙΑ ΦΟΙΤΗΤΩΝ ==========
+// ΒΑΘΜΟΛΟΓΙΑ ΦΟΙΤΗΤΩΝ
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit_grade'])) {
     $student_id = $_POST['student_id'];
     $course_id = $_POST['course_id'];
@@ -70,7 +70,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit_grade'])) {
     }
 }
 
-// ========== ΑΝΑΚΟΙΝΩΣΕΙΣ ==========
+//  ΑΝΑΚΟΙΝΩΣΕΙΣ 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['create_announcement'])) {
     $course_id = $_POST['course_id'] ?: null;
     $title = $_POST['title'];
@@ -96,7 +96,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['delete_announcement'])
     }
 }
 
-// ========== ΛΗΨΗ ΔΕΔΟΜΕΝΩΝ ==========
+// ΛΗΨΗ ΔΕΔΟΜΕΝΩΝ
 // Μαθήματα - Ο καθηγητής βλέπει ΟΛΑ τα courses (όχι μόνο αυτά που έχει δημιουργήσει)
 // για να μπορεί να τα διαχειριστεί και να δει τους φοιτητές
 $courses_query = "SELECT c.*, u.username as professor_name 
@@ -136,6 +136,7 @@ $announcements_stmt->bind_param("i", $professor_id);
 $announcements_stmt->execute();
 $announcements_result = $announcements_stmt->get_result();
 ?>
+
 <!DOCTYPE html>
 <html lang="el">
 <head>
@@ -211,11 +212,11 @@ $announcements_result = $announcements_stmt->get_result();
         <!-- Tabs -->
         <div class="tabs">
             <button class="tab-button <?php echo $active_tab == 'courses' ? 'active' : ''; ?>" 
-                    onclick="showTab('courses')">Μαθήματα</button>
+                    onclick="showTab('courses', this)">Μαθήματα</button>
             <button class="tab-button <?php echo $active_tab == 'students' ? 'active' : ''; ?>" 
-                    onclick="showTab('students')">Φοιτητές</button>
+                    onclick="showTab('students', this)">Φοιτητές</button>
             <button class="tab-button <?php echo $active_tab == 'announcements' ? 'active' : ''; ?>" 
-                    onclick="showTab('announcements')">Ανακοινώσεις</button>
+                    onclick="showTab('announcements', this)">Ανακοινώσεις</button>
         </div>
 
         <!-- Tab: Μαθήματα -->
@@ -413,21 +414,6 @@ $announcements_result = $announcements_stmt->get_result();
         <p>&copy; <?php echo date("Y"); ?> University of Larissa</p>
     </footer>
 
-    <script>
-        function showTab(tabName) {
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            
-            document.querySelectorAll('.tab-button').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            
-            document.getElementById('tab-' + tabName).classList.add('active');
-            event.target.classList.add('active');
-            
-            window.history.pushState({}, '', '?tab=' + tabName);
-        }
-    </script>
+    <script src="js/scripts.js"></script>
 </body>
 </html>
