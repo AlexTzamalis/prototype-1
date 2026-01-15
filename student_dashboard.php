@@ -14,7 +14,7 @@ if(!isset($_SESSION['user_id']) || $_SESSION['role_id'] != 1){
 $student_id = $_SESSION['user_id'];
 $active_tab = isset($_GET['tab']) ? $_GET['tab'] : 'courses';
 
-// ========== ΕΓΓΡΑΦΗ ΣΕ ΜΑΘΗΜΑ ==========
+// ΕΓΓΡΑΦΗ ΣΕ ΜΑΘΗΜΑ 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['enroll'])) {
     $course_id = $_POST['course_id'];
     $check = $conn->prepare("SELECT id FROM enrollments WHERE student_id=? AND course_id=?");
@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['enroll'])) {
     }
 }
 
-// ========== ΛΗΨΗ ΔΕΔΟΜΕΝΩΝ ==========
+// ΛΗΨΗ ΔΕΔΟΜΕΝΩΝ
 // Μαθήματα
 $courses_query = "SELECT c.*, u.username as professor_name 
                   FROM courses c 
@@ -150,9 +150,9 @@ $enrolled_no_grade_result = $enrolled_no_grade_stmt->get_result();
         <!-- Tabs -->
         <div class="tabs">
             <button class="tab-button <?php echo $active_tab == 'courses' ? 'active' : ''; ?>" 
-                    onclick="showTab('courses')">Μαθήματα</button>
+                    onclick="showTab('courses', this)">Μαθήματα</button>
             <button class="tab-button <?php echo $active_tab == 'grades' ? 'active' : ''; ?>" 
-                    onclick="showTab('grades')">Βαθμολογίες</button>
+                    onclick="showTab('grades', this)">Βαθμολογίες</button>
         </div>
 
         <!-- Tab: Μαθήματα -->
@@ -231,27 +231,6 @@ $enrolled_no_grade_result = $enrolled_no_grade_stmt->get_result();
         <p>&copy; <?php echo date("Y"); ?> University of Larissa</p>
     </footer>
 
-    <script>
-        function showTab(tabName) {
-            // Κρύβουμε όλα τα tabs
-            document.querySelectorAll('.tab-content').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            
-            // Αφαιρούμε το active από όλα τα buttons
-            document.querySelectorAll('.tab-button').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            
-            // Εμφανίζουμε το επιλεγμένο tab
-            document.getElementById('tab-' + tabName).classList.add('active');
-            
-            // Προσθέτουμε active στο button
-            event.target.classList.add('active');
-            
-            // Αλλάζουμε το URL χωρίς reload
-            window.history.pushState({}, '', '?tab=' + tabName);
-        }
-    </script>
+    <script src="js/scripts.js"></script>
 </body>
 </html>

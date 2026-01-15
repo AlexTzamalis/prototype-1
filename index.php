@@ -24,6 +24,7 @@ session_start();
             <?php if(isset($_SESSION['username'])): ?>
                 <span>Καλωσήρθες, <?php echo htmlspecialchars($_SESSION['username']); ?>!</span>
                 <a href="logout.php">Αποσύνδεση</a>
+                
             <?php else: ?>
                 <a href="login.php">Σύνδεση</a>
                 <a href="register.php">Εγγραφή</a>
@@ -61,25 +62,6 @@ session_start();
 
     <!-- SCRIPTS -->
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <script>
-        // Leaflet Map Configuration
-        // Περιμένουμε να φορτωθεί η σελίδα πριν δημιουργήσουμε τον χάρτη
-        window.addEventListener('load', function() {
-            var map = L.map('campusMap').setView([39.6370, 22.4201], 16);
-            
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; OpenStreetMap contributors'
-            }).addTo(map);
-            
-            L.marker([39.6370, 22.4201]).addTo(map)
-                .bindPopup('<b>University of Larissa</b><br>Παπαναστασίου 28, Λάρισα')
-                .openPopup();
-            
-            // Ανανεώνουμε το μέγεθος του χάρτη για να φαίνεται σωστά
-            setTimeout(function() {
-                map.invalidateSize();
-            }, 100);
-        });
-    </script>
+    <script src="js/scripts.js"></script>
 </body>
 </html>
